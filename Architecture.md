@@ -70,44 +70,24 @@ object UploadImageSuccess: Event() // 행위: 업로드하다. 대상: 이미지
 - Model은 각각의 layer에 만들어져서 mapping되도록 구성한다
 - 예) User라는 개념의 model에 대한 각각 layer에서의 정의
 
+### Data
+```kotlin
+data class UserResponseDto(){}
+
+fun UserResponseDto.toDomain(): UserEntity
+```
+
 ### Domain
 ```kotlin
-data class User(){}
+data class UserEntity(){}
+ 
+fun User.toData(): UserResponseDto
+fun UserEntity.toPresentation(): UserModel
 ```
 
 ### Presentation
 ```kotlin
 data class UserModel(){}
  
-fun User.toPresentation(): UserModel
-fun UserModel.toDomain(): User
+fun UserModel.toDomain(): UserEntity
 ```
-
-### Data
-```kotlin
-data class UserEntity(){}
- 
-fun UserEntity.toDomain(): User
-fun User.toData(): UserEntity
-```
-
-### Remote
-```kotlin
-data class UserResponseDto(){}
- 
-fun UserResponseDto.toData(): UserEntity
-fun UserEntity.toRemote(): UserResponseDto
-```
-- 단, 데이터를 갱신할때 parameter로 사용되는 Param개념은 뒤에 Param으로 붙이도록 변경
-  : 또한 Remote에서의 해당 이름은 xxxxParamRequest로 정의
-
-### Local
-```kotlin
-data class UserPref(){}
- 
-fun UserPref.toData(): UserEntity
-fun UserEntity.toPref(): UserPref
-```
-
-- 단, 데이터를 갱신할때 parameter로 사용되는 Param개념은 뒤에 Param으로 붙이도록 변경
-- 또한 Remote에서의 해당 이름은 xxxxParamRequest로 정의
